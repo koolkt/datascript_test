@@ -18,6 +18,7 @@
                  [cheshire "5.7.0"]]
 
   :plugins [[lein-cljsbuild "1.1.3"]
+            [lein-figwheel "0.5.0-1"]
             [lein-environ "1.0.3"]]
 
   :min-lein-version "2.6.1"
@@ -105,8 +106,8 @@
   :doo {:build "test"}
 
   :profiles {:dev
-             {:dependencies [[figwheel "0.5.4-4"]
-                             [figwheel-sidecar "0.5.4-4"]
+             {:dependencies [[figwheel "0.5.8"]
+                             [figwheel-sidecar "0.5.8"]
                              [com.cemerick/piggieback "0.2.1"]
                              [org.clojure/tools.nrepl "0.2.12"]]
 

@@ -1,36 +1,40 @@
 (ns cmap.core
-  (:require [reagent.core :as r :refer [atom]]
-            [posh.reagent :as p :refer [pull q posh!]]
+  (:require [reagent.core :as r]
+            [posh.reagent :as p]
             [datascript.core :as d]
-            [cmap.db :as db]))
+            [cmap.db :as db]
+            [cmap.components.open-map :as l]))
 
 (enable-console-print!)
 
-(db/populate! db/conn)
-(posh! db/conn)
+;; (db/populate! db/conn)
+
+(p/posh! db/conn)
 
 (defn construct-url [path]
-  (str "https://www.capoupascap.info/" path))
+  (when (not (empty? path))
+    (str "https://www.capoupascap.info/" path)))
 
-(defn cap-actor [{:keys [main-image-url name html-description email website]}]
-  [:div {:style {:display "flex"}}
-   [:img {:style {:width "500px" :height "500px"} :src main-image-url}]
-   [:div {:style {:display "flex" :flex-direction "column" :padding "0px 30px"}}
-    [:h2 name]
-    [:div {:style {:max-width "700px"} :dangerouslySetInnerHTML {:__html html-description}}]
+(defn actor-card [k [main-image-url name html-description email website lng swlng]]
+  [:div {:style {:display "flex" :flex-Wrap "wrap"} :key k}
+   (if (not-empty main-image-url)
+     [:img {:style {:width "500px" :height "350px"} :src (str "https://www.capoupascap.info/" main-image-url)}]
+     [:div {:style {:width "500px" :height "350px" :background "grey"}}])
+   [:div {:style {:display "flex" :flex-direction "column" :padding "5px 0px" :flex "0 100%"}}
+    [:h3 name]
     [:h4 (str "Email: " email)]
-    [:h4 (str "Site web " website)]]])
+    [:h4 (str lng " < " swlng)]
+    [:h4 [:a {:href (str "http://" website)} (str "Site web " website)]]]])
 
-(defn cap-actor-wrap []
-  (let [actor @(pull db/conn '[:presa_image :nom_initiative :objet_initiative :email_initiative :website_initiative] 1)
-        props {:main-image-url (construct-url (:presa_image actor))
-               :name (:nom_initiative actor)
-               :html-description (:objet_initiative actor)
-               :email (:email_initiative actor)
-               :website (:website_initiative actor)}]
-    [cap-actor props]))
-(defn ccc []
-  [:div
-   [cap-actor-wrap]])
+(defn actors-sidebar [actors]
+  [:div {:style {:flex "0 60%"}}
+   (or (doall (map-indexed actor-card actors))
+       [:h2 "No data"])])
 
-(r/render [ccc] (js/document.getElementById "app"))
+(defn main-map []
+  (let [data (db/get-actors-data db/conn)]
+    [:div {:style {:display "flex"}}
+     [actors-sidebar (take 10 @data)]
+     [l/open-map-outer db/conn]]))
+
+(r/render [main-map] (js/document.getElementById "app"))
