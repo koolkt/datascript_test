@@ -47,21 +47,21 @@
              :mapsw/lng {:db/cardinality :db.cardinality/one}})
 (def conn (d/create-conn schema))
 
-(defn get-actosrs-inside-map [conn]
-  (p/q  '[:find ?lat ?lng
-          :where
-          [_ :mapne/lat ?nelat]
-          [_ :mapsw/lat ?swlat]
-          [_ :mapne/lng ?nelng]
-          [_ :mapsw/lng ?swlng]
-          [?e :long_initiative ?lng]
-          [?e :lat_initiative ?lat]
-          [(< ?lat ?nelat)]
-          [(> ?lat ?swlat)]
-          [(< ?lng ?nelng)]
-          [(> ?lng ?swlng)]
-          ]
-        conn))
+;; (defn get-actosrs-inside-map [conn]
+;;   (p/q  '[:find ?lat ?lng
+;;           :where
+;;           [_ :mapne/lat ?nelat]
+;;           [_ :mapsw/lat ?swlat]
+;;           [_ :mapne/lng ?nelng]
+;;           [_ :mapsw/lng ?swlng]
+;;           [?e :long_initiative ?lng]
+;;           [?e :lat_initiative ?lat]
+;;           [(< ?lat ?nelat)]
+;;           [(> ?lat ?swlat)]
+;;           [(< ?lng ?nelng)]
+;;           [(> ?lng ?swlng)]
+;;           ]
+;;         conn))
 
 (defn get-actors [conn]
   (p/q  '[:find ?lat ?lng ?name
@@ -72,7 +72,7 @@
         conn))
 
 (defn get-actors-data [conn]
-  (p/q '[:find ?main-image-url ?name ?html-description ?email ?website ?lng ?swlng
+  (p/q '[:find ?main-image-url ?name ?html-description ?email ?website
          :where
          [_ :mapne/lat ?nelat]
          [_ :mapsw/lat ?swlat]

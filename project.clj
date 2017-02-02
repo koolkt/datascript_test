@@ -13,8 +13,11 @@
                  [ring.middleware.logger "0.5.0"]
                  [compojure "1.5.0"]
                  [environ "1.0.3"]
-                 [reagent "0.6.0-rc"]
+                 [reagent "0.6.0" :exclusions [cljsjs/react]]
+                 [cljsjs/react-with-addons "15.2.1-0"]
+                 [reanimated "0.5.0"]
                  [posh "0.5.5"]
+                 [cljsjs/leaflet "0.7.7-8"]
                  [cheshire "5.7.0"]]
 
   :plugins [[lein-cljsbuild "1.1.3"]
