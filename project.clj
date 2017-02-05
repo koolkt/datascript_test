@@ -6,6 +6,7 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.89" :scope "provided"]
+                 [org.clojure/core.async "0.2.395"]
                  [com.cognitect/transit-clj "0.8.285"]
                  [ring "1.4.0"]
                  [ring/ring-defaults "0.2.0"]
@@ -18,7 +19,9 @@
                  [reanimated "0.5.0"]
                  [posh "0.5.5"]
                  [cljsjs/leaflet "0.7.7-8"]
-                 [cheshire "5.7.0"]]
+                 [cheshire "5.7.0"]
+                 [mount "0.1.11"]
+                 [bidi "2.0.16"]]
 
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-figwheel "0.5.0-1"]

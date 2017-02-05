@@ -16,12 +16,13 @@
     :component-did-mount
     (fn [this]
       (let [data (:data (r/props this))
+            conn (:conn (r/props this))
             mp (lmap/init)]
         (reset! omap mp)
         (lmap/add-layer mp)
         (lmap/add-markers! data mp)
-        (db/update-bounds (lmap/get-bounds mp) db/conn)
-        (lmap/on-idle mp #(db/update-bounds (lmap/get-bounds @omap) db/conn))))
+        (db/update-bounds (lmap/get-bounds mp) conn)
+        (lmap/on-idle mp #(db/update-bounds (lmap/get-bounds @omap) conn))))
 
     :component-did-update
     (fn [this]
@@ -35,4 +36,4 @@
 (defn open-map-outer [conn]
   (let [data (db/get-actors conn)]
     (fn []
-      [open-map-inner {:data @data}])))
+      [open-map-inner {:data @data :conn conn}])))
