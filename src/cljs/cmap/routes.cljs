@@ -24,14 +24,19 @@
        (handle-route-change conn (.-token event))))
     (.setEnabled true)))
 
-(defmulti component-map identity)
-(defmethod component-map [:default ""] [] [:div "No page found"])
-(defmethod component-map [:index ""] [[path params]] [main-map params])
+;; (defmulti component-map identity)
+;; (defmethod component-map :default [] [:div "No page found"])
+;; (defmethod component-map [:index ""] [[path params]] [main-map params])
+
+(defn not-found []
+  (fn [params] [:div "No page found"]))
+
+(def component-map {:index (fn [params] [main-map params])})
 
 (defn router [conn]
   (let [url-path (get-route-info conn)]
     (fn []
-      [component-map @url-path])))
+      [(get component-map (first @url-path) not-found) (second @url-path)])))
 
 (defn init-routes [conn]
   (hook-browser-navigation! conn)
