@@ -2,6 +2,7 @@
 
 (def *hidelberg-tile* "http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}")
 (def *base-tile* "http://{s}.tile.osm.org/{z}/{x}/{y}.png")
+(def *f-tile* "https://{s}.tiles.mapbox.com/v3/lrqdo.2f8d4ef0/{z}/{x}/{y}.png")
 (def *paris* #js[48.856614, 2.3522219])
 
 (def *markers* (atom []))
@@ -15,7 +16,7 @@
 
 (defn add-layer
   ([lmap]
-   (add-layer lmap *base-tile*))
+   (add-layer lmap *f-tile*))
   ([lmap layer-url]
    (let [attr "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"]
      (-> js/L
