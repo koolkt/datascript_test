@@ -69,9 +69,8 @@
                 :source-paths ["src/cljs" "src/cljc"]
                 :jar true
                 :compiler {:main cmap.core
-                           :output-to "resources/public/js/compiled/cmap.js"
+                           :output-to "docs/js/compiled/cmap-prod.js"
                            :output-dir "target"
-                           :source-map-timestamp true
                            :optimizations :advanced
                            :pretty-print false}}]}
 
